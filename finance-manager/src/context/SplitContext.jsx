@@ -66,6 +66,29 @@ export const SplitProvider = ({ children }) => {
     setExpenses((prev) => [...prev, newExpense])
   }
 
+const updateExpense = (updatedExpense) => {
+  setExpenses((prev) =>
+    prev.map((expense) =>
+      expense.id === updatedExpense.id
+        ? {
+            ...expense,
+            description: updatedExpense.description,
+            amount: Number(updatedExpense.amount),
+            paidBy: updatedExpense.paidBy,
+            participants: updatedExpense.participants,
+            splitType: updatedExpense.splitType || "equal",
+          }
+        : expense
+    )
+  )
+}
+
+const deleteExpense = (expenseId) => {
+  setExpenses((prev) =>
+    prev.filter((expense) => expense.id !== expenseId)
+  )
+}
+
 
   const calculateBalances = () => {
     const updatedParticipants = participants.map((p) => ({
@@ -118,6 +141,8 @@ export const SplitProvider = ({ children }) => {
         expenses,
         addParticipant,
         addExpense,
+        updateExpense,   
+        deleteExpense,
       }}
     >
       {children}

@@ -1,16 +1,28 @@
 import { LayoutDashboard, History } from "lucide-react"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
+import { NavLink, useNavigate } from "react-router-dom"
 import AddExpenseModal from "./AddExpenseModal"
 
 export default function Navbar() {
+  const navigate = useNavigate()
+
+  const navLinkClass = ({ isActive }) =>
+    `flex items-center gap-2 transition ${
+      isActive
+        ? "text-blue-600 font-medium"
+        : "text-gray-600 hover:text-gray-900"
+    }`
+
   return (
-    <nav className="w-full bg-white  px-8 py-3">
+    <nav className="w-full bg-white px-8 py-3 border-b">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
 
         <div className="flex items-center gap-10">
 
-
-          <div className="flex items-center gap-2">
+          <div
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 cursor-pointer"
+          >
             <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">
               <div className="w-4 h-4 border-2 border-white rounded-sm"></div>
             </div>
@@ -19,25 +31,25 @@ export default function Navbar() {
             </span>
           </div>
 
+
           <div className="flex items-center gap-6 text-sm">
 
-            <button className="flex items-center gap-2 text-blue-600 font-medium">
+            <NavLink to="/" className={navLinkClass}>
               <LayoutDashboard size={16} />
               Dashboard
-            </button>
+            </NavLink>
 
-            <button className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition">
+            <NavLink to="/history" className={navLinkClass}>
               <History size={16} />
               History
-            </button>
+            </NavLink>
 
           </div>
         </div>
 
         <div className="flex items-center gap-4">
 
-          <AddExpenseModal/>
-
+          <AddExpenseModal />
 
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
@@ -55,16 +67,28 @@ export default function Navbar() {
                 className="bg-white shadow-lg rounded-md p-2 w-40"
                 sideOffset={5}
               >
-                <DropdownMenu.Item className="px-3 py-2 text-sm hover:bg-gray-100 rounded cursor-pointer">
+                <DropdownMenu.Item
+                  onClick={() => navigate("/profile")}
+                  className="px-3 py-2 text-sm hover:bg-gray-100 rounded cursor-pointer"
+                >
                   Profile
                 </DropdownMenu.Item>
-                <DropdownMenu.Item className="px-3 py-2 text-sm hover:bg-gray-100 rounded cursor-pointer">
+
+                <DropdownMenu.Item
+                  onClick={() => navigate("/settings")}
+                  className="px-3 py-2 text-sm hover:bg-gray-100 rounded cursor-pointer"
+                >
                   Settings
                 </DropdownMenu.Item>
+
                 <DropdownMenu.Separator className="h-px bg-gray-200 my-1" />
-                <DropdownMenu.Item className="px-3 py-2 text-sm text-red-500 hover:bg-gray-100 rounded cursor-pointer">
+
+                <DropdownMenu.Item
+                  className="px-3 py-2 text-sm text-red-500 hover:bg-gray-100 rounded cursor-pointer"
+                >
                   Logout
                 </DropdownMenu.Item>
+
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu.Root>
